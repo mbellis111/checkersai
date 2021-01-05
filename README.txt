@@ -24,10 +24,11 @@ Features and Known Bugs
 [X] add in a move history printout
 	printing out to console for now .... make this prettier later
 	consider a side scrolling log that lists the moves
-[] add better printing for jumps that show the jump location
+[X] add better printing for jumps that show the jump location
 [X] potential bug found where a previous jump chain allows another piece to go
 	this was caused because a king was incorrectly allowing new jumps to be made
 	a king should only be made at the end of a turn, after checks for jumps are done
 [X] only make computer move when you click
 	did this to make it easier to see the moves the computer makes
 	consider doing this on a timer or just visually show it a litter nicer. a pain with Swing repainting
+[] Consider a stronger huerstic for board evaluation, like considering advancing pieces and keeping back row stable, and/or middle board control

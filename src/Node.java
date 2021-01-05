@@ -1,44 +1,28 @@
-import java.util.ArrayList;
-import java.util.List;
 
 public class Node {
 
-	Board board;
-	private Move move;
-	double value;
-
-	private Node parent;
-	private List<Node> children;
+	Move move;
+	int value;
 
 	public Node() {
-		value = 0;
-		children = new ArrayList<Node>();
-		parent = null;
+		move = null;
 	}
 
-//	public Node(Node node) {
-//		this();
-//		this.setParent(parent);
-//	}
-
-	public List<Node> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<Node> children) {
-		this.children = children;
-	}
-
-	public void addChild(Node child) {
-		this.children.add(child);
-	}
-
-	public void setValue(double value) {
+	public Node(int value) {
+		this.move = null;
 		this.value = value;
 	}
 
-	public double getValue() {
-		return value;
+	public Node(Move move) {
+		this.move = move;
+	}
+
+	public String toString() {
+		String ret = "V: " + value;
+		if (move != null) {
+			ret += ", " + move.toString();
+		}
+		return ret;
 	}
 
 	public Move getMove() {
@@ -49,20 +33,12 @@ public class Node {
 		this.move = move;
 	}
 
-	public Board getBoard() {
-		return board;
+	public int getValue() {
+		return value;
 	}
 
-	public void setBoard(Board board) {
-		this.board = board;
-	}
-
-	public Node getParent() {
-		return parent;
-	}
-
-	public void setParent(Node parent) {
-		this.parent = parent;
+	public void setValue(int value) {
+		this.value = value;
 	}
 
 }

@@ -47,23 +47,23 @@ public class GUI {
 //		};
 //		// @formatter:on
 
-		// create a test for game over here
-		// @formatter:off
-		int[][] data = new int[][] { 
-			//0  1  2  3  4  5  6  7
-			{ 1, 0, 0, 0, 0, 0, 0, 0 }, // 0
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 4
-			{ 0, 0, 2, 0, 0, 0, 0, 0 }, // 5
-			{ 0, 0, 0, 1, 0, 1, 0, 0 }, // 6
-			{ 0, 0, 0, 0, 0, 0, 0, 0 }  // 7
-		};
-		// @formatter:on
+//		// create a test for game over here
+//		// @formatter:off
+//		int[][] data = new int[][] { 
+//			//0  1  2  3  4  5  6  7
+//			{ 1, 0, 0, 0, 0, 0, 0, 0 }, // 0
+//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
+//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
+//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
+//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 4
+//			{ 0, 0, 2, 0, 0, 0, 0, 0 }, // 5
+//			{ 0, 0, 0, 1, 0, 1, 0, 0 }, // 6
+//			{ 0, 0, 0, 0, 0, 0, 0, 0 }  // 7
+//		};
+//		// @formatter:on
 
 		board.initBoard();
-		board = new Board(data);
+		// board = new Board(data);
 		gameBoard.updateBoard(board);
 		board.setTurn(Constants.BLACK_PLAYER);
 
@@ -169,8 +169,8 @@ class BoardUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Board board;
-	private Player playerOne = new Player(Constants.BLACK_PLAYER, Constants.COMPUTER);
-	private Player playerTwo = new Player(Constants.RED_PLAYER, Constants.HUMAN);
+	private Player playerOne = new Player(Constants.BLACK_PLAYER, Constants.HUMAN);
+	private Player playerTwo = new Player(Constants.RED_PLAYER, Constants.COMPUTER);
 
 	private Click firstClick;
 	private Click secondClick;
@@ -279,7 +279,7 @@ class BoardUI extends JPanel {
 	}
 
 	private Board makeComputerMove(Board board) {
-		GameNode node = AI.minimax(board, new GameNode(), Constants.PLIES, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Node node = AI.minimax(board, new Node(), Constants.PLIES, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		Move move = node.getMove();
 		Board temp = Game.makeMove(board, move);
 		updateState(temp);

@@ -34,7 +34,7 @@ public class Tester {
 		int testDepth = 10;
 		Board board = new Board(data);
 		board.setTurn(Constants.RED_PLAYER);
-		GameNode node;
+		Node node;
 
 		System.out.println(board.printBoard());
 
@@ -48,7 +48,7 @@ public class Tester {
 				break;
 			}
 
-			node = AI.minimax(board, new GameNode(), testDepth, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+			node = AI.minimax(board, new Node(), testDepth, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			System.out.println(node.getValue());
 			System.out.println(node.getMove());
 			board = Game.makeMove(board, node.getMove());

@@ -2,24 +2,24 @@ import java.util.List;
 
 public class AI {
 
-	public static GameNode minimax(Board board, GameNode currentNode, int depth, int player, boolean maxPlayer, int alpha, int beta) {
+	public static Node minimax(Board board, Node currentNode, int depth, int player, boolean maxPlayer, int alpha, int beta) {
 		// base-case
 		if (depth <= 0) {
 			int score = AI.evaluateBoard(board, player, maxPlayer);
-			return new GameNode(score);
+			return new Node(score);
 		}
 
 		// check game over
 		List<Move> moves = Game.getAvailableMoves(board, player);
 		if (moves.isEmpty()) {
 			if (maxPlayer) {
-				return new GameNode(Integer.MIN_VALUE);
+				return new Node(Integer.MIN_VALUE);
 			} else {
-				return new GameNode(Integer.MAX_VALUE);
+				return new Node(Integer.MAX_VALUE);
 			}
 		}
 
-		GameNode selectedNode = new GameNode();
+		Node selectedNode = new Node();
 		int selectedValue;
 		if (maxPlayer) {
 			selectedValue = Integer.MIN_VALUE;
@@ -28,7 +28,7 @@ public class AI {
 		}
 
 		for (Move move : moves) {
-			GameNode node = new GameNode(move);
+			Node node = new Node(move);
 
 			Board newBoard = new Board(board);
 
@@ -38,7 +38,7 @@ public class AI {
 				System.out.println("ERROR");
 			}
 
-			GameNode result;
+			Node result;
 			if (newBoard.getTurn() == player) {
 				result = minimax(newBoard, node, depth - 1, player, maxPlayer, alpha, beta);
 			} else {
@@ -122,49 +122,5 @@ public class AI {
 			}
 		}
 	}
-
-//	public static int evaluateBoard(Board board, int player) {
-//		int redCheckers = 0;
-//		int redKings = 0;
-//		int blackCheckers = 0;
-//		int blackKings = 0;
-//		int score = 0;
-//
-//		for (int r = 0; r < Constants.ROWS; r++) {
-//			for (int c = 0; c < Constants.COLUMNS; c++) {
-//				int piece = board.getPiece(r, c);
-//				if (piece == Constants.RED_CHECKER) {
-//					redCheckers++;
-//				} else if (piece == Constants.RED_KING) {
-//					redKings++;
-//				} else if (piece == Constants.BLACK_CHECKER) {
-//					blackCheckers++;
-//				} else if (piece == Constants.BLACK_KING) {
-//					blackKings++;
-//				}
-//			}
-//		}
-//
-//		int redScore = redCheckers + (redKings * 2);
-//		int blackScore = blackCheckers + (blackKings * 2);
-//
-//		if (player == Constants.RED_PLAYER) {
-//			score = redScore - blackScore;
-//			if (redScore > 0 && blackScore == 0) {
-//				return Integer.MAX_VALUE;
-//			} else if (redScore == 0 && blackScore > 0) {
-//				return Integer.MIN_VALUE;
-//			}
-//		} else if (player == Constants.BLACK_PLAYER) {
-//			score = blackScore - redScore;
-//			if (blackScore > 0 && redScore == 0) {
-//				return Integer.MAX_VALUE;
-//			} else if (blackScore == 0 && redScore > 0) {
-//				return Integer.MIN_VALUE;
-//			}
-//		}
-//
-//		return score;
-//	}
 
 }

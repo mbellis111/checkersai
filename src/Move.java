@@ -163,6 +163,9 @@ public class Move {
 	}
 
 	public String toString() {
+		if (this.getIsValidJump()) {
+			return "P" + player + ": (" + startRow + "," + startCol + ") -> (" + jumpEndRow + "," + jumpEndCol + ")";
+		}
 		return "P" + player + ": (" + startRow + "," + startCol + ") -> (" + endRow + "," + endCol + ")";
 	}
 
