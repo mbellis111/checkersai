@@ -2,18 +2,6 @@ import java.awt.Color;
 
 public class Constants {
 
-	// TODO
-	// [] add in undo feature
-	// [] add in forfeit
-	// [] add in multiple jump tracker
-	// [] make the tracker line thicker
-	// [X] add in a move history printout
-	// printing out to console for now .... make this prettier later
-	// [X] potential bug found where a previous jump chain allows another piece to go
-	// this was caused because
-	// [X] only make computer move when you click
-	// did this to make it easier to see the moves the computer makes
-
 	/**
 	 * Number of moves to look ahead
 	 */
