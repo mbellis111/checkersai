@@ -4,10 +4,16 @@ import java.util.List;
 
 public class Game {
 
-	public static boolean detectDraw(Board board) {
-		// if we have made fifty moves with a jump or if the same state has been seen three times
+	public static boolean detectDraw(PlayBoard board) {
+		// if there haven't been enough moves, exit early
+		List<Move> moves = board.getMoves();
+		if (moves.size() < Constants.DRAW_MOVES_WITHOUT_CAPTURE && moves.size() < Constants.DRAW_REPEATED_MOVES) {
+			return false;
+		}
+
+		// if we have made too many moves with a jump or if the same state has been seen three times
 		int movesBeforeJump = 0;
-		for (Move move : board.getMoves()) {
+		for (Move move : moves) {
 			if (!move.getIsValidJump()) {
 				movesBeforeJump++;
 			} else {
@@ -19,10 +25,10 @@ public class Game {
 			}
 		}
 
-		// check to see if the same move was made 3 times
+		// check to see if the same move was made a certain number of times
 		// the Move class implements hashCode
 		HashMap<Move, Integer> moveCount = new HashMap<Move, Integer>();
-		for (Move move : board.getMoves()) {
+		for (Move move : moves) {
 			if (moveCount.containsKey(move)) {
 				moveCount.put(move, moveCount.get(move) + 1);
 			} else {
@@ -48,7 +54,7 @@ public class Game {
 		if (validate) {
 			boolean isValid = validateMove(board, move);
 			if (!isValid) {
-				board.setErrorMessage(move.getErrorMessage());
+				// board.setErrorMessage(move.getErrorMessage());
 				return board;
 			}
 		}
@@ -127,12 +133,12 @@ public class Game {
 			board.setTurn(getOtherPlayer(player));
 		}
 
-		board.addMove(move);
-		board.setErrorMessage("");
+		// board.addMove(move);
+		// board.setErrorMessage("");
 		return board;
 	}
 
-	public static boolean checkGameOver(Board board, int player) {
+	public static boolean checkGameOver(PlayBoard board, int player) {
 		// the game ends if the player cannot make any moves
 		List<Move> moves = getAvailableMoves(board, player);
 		if (moves.isEmpty()) {
@@ -311,17 +317,6 @@ public class Game {
 			return false;
 		}
 
-		// space must be occupied by an enemy
-		// check that the move space is free (or enemy to allow jump)
-		int endPiece = board.getPiece(endRow, endCol);
-		boolean spaceEmpty = endPiece == Constants.EMPTY;
-		boolean enemyOwned = getOwner(endPiece) == getOtherPlayer(player);
-		if (spaceEmpty || !enemyOwned) {
-			move.setIsValidJump(false);
-			move.setJumpError("You can only jump over an enemy piece!");
-			return false;
-		}
-
 		// its a jump if the selected piece is the enemies
 		// and the jump space is empty
 		// and the jump space is in bounds
@@ -333,13 +328,29 @@ public class Game {
 		move.setJumpEndCol(jumpCol);
 
 		boolean jumpInBounds = isInBounds(jumpRow, jumpCol);
-		boolean jumpAvailable = board.getPiece(jumpRow, jumpCol) == Constants.EMPTY;
-
 		// check to see if this is a jump
-		boolean validJump = jumpAvailable && jumpInBounds;
-		if (!validJump) {
+		if (!jumpInBounds) {
 			move.setIsValidJump(false);
 			move.setJumpError("Jumping space must be available!");
+			return false;
+		}
+
+		boolean jumpAvailable = board.getPiece(jumpRow, jumpCol) == Constants.EMPTY;
+		// check to see if this is a jump
+		if (!jumpAvailable) {
+			move.setIsValidJump(false);
+			move.setJumpError("Jumping space must be available!");
+			return false;
+		}
+
+		// space must be occupied by an enemy
+		// check that the move space is free (or enemy to allow jump)
+		int endPiece = board.getPiece(endRow, endCol);
+		boolean spaceEmpty = endPiece == Constants.EMPTY;
+		boolean enemyOwned = getOwner(endPiece) == getOtherPlayer(player);
+		if (spaceEmpty || !enemyOwned) {
+			move.setIsValidJump(false);
+			move.setJumpError("You can only jump over an enemy piece!");
 			return false;
 		}
 
@@ -420,7 +431,7 @@ public class Game {
 		return -1;
 	}
 
-	private static boolean isOwner(int piece, int player) {
+	public static boolean isOwner(int piece, int player) {
 		return player == getOwner(piece);
 	}
 

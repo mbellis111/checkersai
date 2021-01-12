@@ -122,6 +122,10 @@ public class Move {
 		this.errorMessage = errorMessage;
 	}
 
+	public boolean hasErrorMessage() {
+		return errorMessage != null && errorMessage.length() > 0;
+	}
+
 	public String getMoveError() {
 		return moveError;
 	}

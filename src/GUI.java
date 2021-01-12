@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -30,7 +29,7 @@ public class GUI {
 	private static void createAndShowGUI() {
 		// init the game state and board
 		BoardUI gameBoard = new BoardUI();
-		Board board = new Board();
+		PlayBoard board = new PlayBoard();
 
 //		// create a test for game over here
 //		// @formatter:off
@@ -51,10 +50,10 @@ public class GUI {
 //		// @formatter:off
 //		int[][] data = new int[][] { 
 //			//0  1  2  3  4  5  6  7
-//			{ 1, 0, 0, 0, 0, 0, 0, 0 }, // 0
+//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 0
 //			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
 //			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
+//			{ 0, 0, 3, 0, 0, 0, 0, 0 }, // 3
 //			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 4
 //			{ 0, 0, 2, 0, 0, 0, 0, 0 }, // 5
 //			{ 0, 0, 0, 1, 0, 1, 0, 0 }, // 6
@@ -63,7 +62,7 @@ public class GUI {
 //		// @formatter:on
 
 		board.initBoard();
-		// board = new Board(data);
+		// board = new PlayBoard(data);
 		gameBoard.updateBoard(board);
 		board.setTurn(Constants.BLACK_PLAYER);
 
@@ -168,7 +167,7 @@ class BoardUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private Board board;
+	private PlayBoard board;
 	private Player playerOne = new Player(Constants.BLACK_PLAYER, Constants.HUMAN);
 	private Player playerTwo = new Player(Constants.RED_PLAYER, Constants.COMPUTER);
 
@@ -204,6 +203,11 @@ class BoardUI extends JPanel {
 					} else {
 						firstClick = click;
 						secondClick = null;
+						int piece = board.getPiece(click.getRow(), click.getCol());
+						if (!Game.isOwner(piece, board.getTurn())) {
+							resetClicks();
+							return;
+						}
 						GUI.setStatus("Selected " + click.toString());
 					}
 				} else if (firstClick != null && secondClick == null) {
@@ -213,25 +217,16 @@ class BoardUI extends JPanel {
 						// human move
 						Move move = new Move(board.getTurn(), firstClick.getRow(), firstClick.getCol(), secondClick.getRow(), secondClick.getCol());
 						Board temp = Game.makeMove(board, move);
-						if (temp.hasError()) {
-							GUI.setStatus(temp.getErrorMessage());
+						if (move.hasErrorMessage()) {
+							GUI.setStatus(move.getErrorMessage());
 						} else {
-							updateState(temp);
+							updateState(temp, move);
 						}
 						// check for a game over
 						if (Game.checkGameOver(board, board.getTurn())) {
 							gameOver();
 							return;
 						}
-
-//						while (isComputerTurn(board.getTurn())) {
-//							makeComputerMove(board);
-//							// check for a game over
-//							if (Game.checkGameOver(board, board.getTurn())) {
-//								gameOver();
-//								return;
-//							}
-//						}
 						resetClicks();
 					}
 				} else {
@@ -269,20 +264,20 @@ class BoardUI extends JPanel {
 		return null;
 	}
 
-	private void updateState(Board board) {
-		this.board = board;
-		List<Move> moves = board.getMoves();
-		Move lastMove = moves.get(moves.size() - 1);
-		GUI.setStatus(lastMove.toString());
-		System.out.println(lastMove);
-		GUI.setTurn("Turn: " + Constants.playerToString(board.getTurn()));
+	private void updateState(Board board, Move move) {
+		this.board.setBoard(board.getBoard());
+		this.board.setTurn(board.getTurn());
+		this.board.addMove(move);
+		GUI.setStatus(move.toString());
+		System.out.println(move);
+		GUI.setTurn("Turn: " + Constants.playerToString(this.board.getTurn()));
 	}
 
 	private Board makeComputerMove(Board board) {
 		Node node = AI.minimax(board, new Node(), Constants.PLIES, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		Move move = node.getMove();
 		Board temp = Game.makeMove(board, move);
-		updateState(temp);
+		updateState(temp, move);
 		return temp;
 	}
 
@@ -291,7 +286,7 @@ class BoardUI extends JPanel {
 		secondClick = null;
 	}
 
-	public void updateBoard(Board board) {
+	public void updateBoard(PlayBoard board) {
 		this.board = board;
 	}
 

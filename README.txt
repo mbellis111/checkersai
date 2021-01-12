@@ -17,13 +17,13 @@ Features and Known Bugs
 	could either undo moves from the list of moves
 	or make a daisy chain of boards each containing previous state
 	either way...
-[] make a game interface and new board class to simplify the board class for less information copying to speed up the minimax algorithm
+[X] make a game interface and new board class to simplify the board class for less information copying to speed up the minimax algorithm
 	currently copying over wayyyyy too much
 [] add in forfeit / new game button
-[] make the tracker line thicker
+[] make the tracker line and selected piece thicker
 [X] add in a move history printout
 	printing out to console for now .... make this prettier later
-	consider a side scrolling log that lists the moves
+[]	consider a side scrolling log that lists the moves
 [X] add better printing for jumps that show the jump location
 [X] potential bug found where a previous jump chain allows another piece to go
 	this was caused because a king was incorrectly allowing new jumps to be made
@@ -31,4 +31,4 @@ Features and Known Bugs
 [X] only make computer move when you click
 	did this to make it easier to see the moves the computer makes
 	consider doing this on a timer or just visually show it a litter nicer. a pain with Swing repainting
-[] Consider a stronger huerstic for board evaluation, like considering advancing pieces and keeping back row stable, and/or middle board control
+[] Consider a stronger heuristic for board evaluation, like considering advancing pieces and keeping back row stable, and/or middle board control

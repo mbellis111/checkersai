@@ -30,13 +30,10 @@ public class AI {
 		for (Move move : moves) {
 			Node node = new Node(move);
 
-			Board newBoard = new Board(board);
+			Board newBoard = new AIBoard(board);
 
 			// we can probably disable validation now that the jump rules has been chosen
-			newBoard = Game.makeMove(newBoard, move, true);
-			if (newBoard.getErrorMessage() != null && !newBoard.getErrorMessage().isEmpty()) {
-				System.out.println("ERROR");
-			}
+			newBoard = Game.makeMove(newBoard, move, false);
 
 			Node result;
 			if (newBoard.getTurn() == player) {

@@ -18,7 +18,7 @@ public class MoveUnitTests {
 			{ 0, 0, 0, 0, 0, 0, 0, 0 }  // 7
 		};
 		// @formatter:on
-		Board board = new Board(data);
+		Board board = new PlayBoard(data);
 		Move move;
 
 		// a piece that doesn't exist
@@ -50,7 +50,7 @@ public class MoveUnitTests {
 		};
 		// @formatter:on
 
-		Board board = new Board(data);
+		Board board = new PlayBoard(data);
 		Move move;
 
 		// now we want to assert a few easy checks
@@ -104,7 +104,7 @@ public class MoveUnitTests {
 		};
 		// @formatter:on
 
-		Board board = new Board(data);
+		Board board = new PlayBoard(data);
 		Move move;
 
 		// a move in the proper direction to a space taken by the same player
@@ -136,7 +136,7 @@ public class MoveUnitTests {
 		};
 		// @formatter:on
 
-		Board board = new Board(data);
+		Board board = new PlayBoard(data);
 		Move move;
 
 		// a valid jump with an open space
@@ -166,7 +166,7 @@ public class MoveUnitTests {
 		};
 		// @formatter:on
 
-		Board board = new Board(data);
+		Board board = new PlayBoard(data);
 		Move move;
 
 		// a jump blocked by two enemies
@@ -198,7 +198,7 @@ public class MoveUnitTests {
 //		};
 //		// @formatter:on
 //
-//		Board board = new Board(data);
+//		Board board = new PlayBoard(data);
 //
 //		// find all moves from the board
 //
@@ -220,7 +220,7 @@ public class MoveUnitTests {
 		};
 		// @formatter:on
 
-		Board board = new Board(data);
+		Board board = new PlayBoard(data);
 		Move move;
 
 		// test trying to make a move when there is a forced jump that must be taken
