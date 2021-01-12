@@ -54,7 +54,6 @@ public class Game {
 		if (validate) {
 			boolean isValid = validateMove(board, move);
 			if (!isValid) {
-				// board.setErrorMessage(move.getErrorMessage());
 				return board;
 			}
 		}

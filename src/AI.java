@@ -2,33 +2,35 @@ import java.util.List;
 
 public class AI {
 
-	public static Node minimax(Board board, Node currentNode, int depth, int player, boolean maxPlayer, int alpha, int beta) {
+	public static Node minimax(Board board, int depth, int player, boolean maxPlayer, int alpha, int beta) {
 		// base-case
 		if (depth <= 0) {
 			int score = AI.evaluateBoard(board, player, maxPlayer);
-			return new Node(score);
+			Node node = new Node(score);
+			return node;
 		}
 
 		// check game over
 		List<Move> moves = Game.getAvailableMoves(board, player);
 		if (moves.isEmpty()) {
+			// chose the depth
+			Node node = new Node();
 			if (maxPlayer) {
-				return new Node(Integer.MIN_VALUE);
+				node.setValue(Integer.MIN_VALUE + (Constants.PLIES - depth));
 			} else {
-				return new Node(Integer.MAX_VALUE);
+				node.setValue(Integer.MAX_VALUE - (Constants.PLIES - depth));
 			}
+			return node;
 		}
 
 		Node selectedNode = new Node();
-		int selectedValue;
+		selectedNode.setMove(moves.get(0));
 		if (maxPlayer) {
-			selectedValue = Integer.MIN_VALUE;
+			selectedNode.setValue(Integer.MIN_VALUE);
 		} else {
-			selectedValue = Integer.MAX_VALUE;
+			selectedNode.setValue(Integer.MAX_VALUE);
 		}
-
 		for (Move move : moves) {
-			Node node = new Node(move);
 
 			Board newBoard = new AIBoard(board);
 
@@ -37,10 +39,11 @@ public class AI {
 
 			Node result;
 			if (newBoard.getTurn() == player) {
-				result = minimax(newBoard, node, depth - 1, player, maxPlayer, alpha, beta);
+				result = minimax(newBoard, depth - 1, player, maxPlayer, alpha, beta);
 			} else {
-				result = minimax(newBoard, node, depth - 1, Game.getOtherPlayer(player), !maxPlayer, alpha, beta);
+				result = minimax(newBoard, depth - 1, Game.getOtherPlayer(player), !maxPlayer, alpha, beta);
 			}
+			result.setMove(move);
 
 //			if (depth == Constants.PLIES) {
 //				System.out.println(move + " : " + result.getValue());
@@ -48,31 +51,16 @@ public class AI {
 
 			if (maxPlayer) {
 				// maximize
-				if (result.getValue() >= selectedValue) {
-					selectedValue = result.getValue();
-					selectedNode.setMove(move); // chose the first move to return
-					selectedNode.setValue(selectedValue);
-				}
-				if (alpha > selectedValue) {
-					alpha = selectedValue;
-				}
+				selectedNode = Node.max(selectedNode, result);
+				alpha = Math.max(alpha, selectedNode.getValue());
 				if (alpha >= beta) {
-					// beta cutoff
 					break;
 				}
-
 			} else {
 				// minimize
-				if (result.getValue() <= selectedValue) {
-					selectedValue = result.getValue();
-					selectedNode.setMove(move); // chose the first move to return
-					selectedNode.setValue(selectedValue);
-				}
-				if (beta < selectedValue) {
-					beta = selectedValue;
-				}
+				selectedNode = Node.min(selectedNode, result);
+				beta = Math.min(beta, selectedNode.getValue());
 				if (beta <= alpha) {
-					// alpha cutoff
 					break;
 				}
 			}

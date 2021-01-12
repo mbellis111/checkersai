@@ -41,4 +41,18 @@ public class Node {
 		this.value = value;
 	}
 
+	public static Node max(Node a, Node b) {
+		if (a.getValue() >= b.getValue()) {
+			return a;
+		}
+		return b;
+	}
+
+	public static Node min(Node a, Node b) {
+		if (b.getValue() <= a.getValue()) {
+			return b;
+		}
+		return a;
+	}
+
 }

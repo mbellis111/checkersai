@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.Duration;
+import java.time.Instant;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -31,43 +33,11 @@ public class GUI {
 		BoardUI gameBoard = new BoardUI();
 		PlayBoard board = new PlayBoard();
 
-//		// create a test for game over here
-//		// @formatter:off
-//		int[][] data = new int[][] { 
-//			//0  1  2  3  4  5  6  7
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 0
-//			{ 0, 0, 2, 0, 2, 0, 2, 0 }, // 1
-//			{ 0, 0, 0, 2, 0, 0, 0, 0 }, // 2
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
-//			{ 0, 0, 0, 1, 0, 0, 0, 0 }, // 4
-//			{ 0, 0, 1, 0, 1, 0, 1, 0 }, // 5
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 6
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }  // 7
-//		};
-//		// @formatter:on
-
-//		// create a test for game over here
-//		// @formatter:off
-//		int[][] data = new int[][] { 
-//			//0  1  2  3  4  5  6  7
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 0
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
-//			{ 0, 0, 3, 0, 0, 0, 0, 0 }, // 3
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 4
-//			{ 0, 0, 2, 0, 0, 0, 0, 0 }, // 5
-//			{ 0, 0, 0, 1, 0, 1, 0, 0 }, // 6
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }  // 7
-//		};
-//		// @formatter:on
-
 		board.initBoard();
-		// board = new PlayBoard(data);
 		gameBoard.updateBoard(board);
 		board.setTurn(Constants.BLACK_PLAYER);
 
 		// set up the GUI
-		// System.out.println("Created GUI on EDT? " + SwingUtilities.isEventDispatchThread());
 		JFrame f = new JFrame("Checkers");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(Constants.GRID_SIZE * (Constants.ROWS), Constants.GRID_SIZE * (Constants.COLUMNS));
@@ -274,7 +244,12 @@ class BoardUI extends JPanel {
 	}
 
 	private Board makeComputerMove(Board board) {
-		Node node = AI.minimax(board, new Node(), Constants.PLIES, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Instant start = Instant.now();
+		Node node = AI.minimax(board, Constants.PLIES, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Instant end = Instant.now();
+		Duration timeElapsed = Duration.between(start, end);
+		System.out.println("Computer thought for " + timeElapsed);
+
 		Move move = node.getMove();
 		Board temp = Game.makeMove(board, move);
 		updateState(temp, move);
