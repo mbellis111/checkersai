@@ -1,5 +1,13 @@
+package tests;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import game.Board;
+import game.Constants;
+import game.Game;
+import game.Move;
+import game.PlayBoard;
 
 public class MoveUnitTests {
 

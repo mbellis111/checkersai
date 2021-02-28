@@ -1,3 +1,4 @@
+package game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -434,7 +435,7 @@ public class Game {
 		return player == getOwner(piece);
 	}
 
-	private static int getOwner(int piece) {
+	public static int getOwner(int piece) {
 		if (piece == Constants.EMPTY) {
 			return Constants.EMPTY;
 		} else if (piece == Constants.RED_CHECKER || piece == Constants.RED_KING) {
@@ -446,7 +447,7 @@ public class Game {
 		return -1;
 	}
 
-	private static boolean isKing(int piece) {
+	public static boolean isKing(int piece) {
 		return piece == Constants.RED_KING || piece == Constants.BLACK_KING;
 	}
 }

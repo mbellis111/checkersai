@@ -1,3 +1,5 @@
+package game;
+
 import java.awt.Color;
 
 public class Constants {
@@ -32,6 +34,23 @@ public class Constants {
 	 * Number of times the same move can be made before declaring a draw
 	 */
 	public static final int DRAW_REPEATED_MOVES = 20;
+
+	/*
+	 * Board evaluation constants
+	 */
+
+	public static final int CHECKER_VALUE = 30;
+	public static final int KING_VALUE = 80;
+
+	public static final int PIECE_ROW_ADVANCE_VALUE = 1;
+	public static final int PIECE_MIDDLE_CENTER_SQUARE_VALUE = 4;
+	public static final int PIECE_MIDDLE_SIDE_SQUARE_VALUE = -2;
+
+	public static final int PIECE_CENTER_GOALIE_VALUE = 10;
+	public static final int PIECE_SIDE_GOALIES_VALUE = 8;
+	public static final int PIECE_DOUBLE_CORNER_VALUE = 4;
+
+	public static final int DIST_FACTOR_VALUE = 5;
 
 	/**
 	 * Grid size in pixels per box

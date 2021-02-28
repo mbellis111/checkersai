@@ -1,3 +1,4 @@
+package game;
 
 public class Move {
 	private int player;

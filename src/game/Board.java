@@ -1,3 +1,4 @@
+package game;
 public interface Board {
 
 	public int getPiece(int row, int col);
