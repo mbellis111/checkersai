@@ -13,14 +13,9 @@ public class Board {
 		movesSinceJump = 0;
 	}
 
-	public Board(int[][] values) {
-		this.board = new int[Constants.ROWS][Constants.COLUMNS];
-		setBoardCopy(values);
-		movesSinceJump = 0;
-	}
-
 	public Board(Board board) {
-		this(board.getBoard());
+		this.board = new int[Constants.ROWS][Constants.COLUMNS];
+		setBoardCopy(board.getBoard());
 		this.setMovesSinceJump(board.getMovesSinceJump());
 	}
 

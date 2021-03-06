@@ -5,12 +5,6 @@ import java.util.List;
 public class AI {
 
 	public static Node minimax(Board board, int depth, int player, boolean maxPlayer, int alpha, int beta) {
-		// base-case
-		if (depth <= 0) {
-			int score = AI.evaluateBoard(board, player, maxPlayer);
-			Node node = new Node(score);
-			return node;
-		}
 
 		// check game over
 		List<Move> moves = Game.getAvailableMoves(board, player);
@@ -32,6 +26,13 @@ public class AI {
 			return node;
 		}
 
+		// base-case
+		if (depth <= 0) {
+			int score = AI.evaluateBoard(board, player, maxPlayer);
+			Node node = new Node(score);
+			return node;
+		}
+
 		Node selectedNode = new Node();
 		selectedNode.setMove(moves.get(0));
 		if (maxPlayer) {
@@ -44,7 +45,7 @@ public class AI {
 
 			Board newBoard = new Board(board);
 
-			// we can probably disable validation now that the jump rules has been chosen
+			// we can probably disable validation now that the jump rules has been fixed
 			newBoard = Game.makeMove(newBoard, move, false);
 
 			Node result;
