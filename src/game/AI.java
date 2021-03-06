@@ -35,7 +35,7 @@ public class AI {
 
 		for (Move move : moves) {
 
-			Board newBoard = new AIBoard(board);
+			Board newBoard = new Board(board);
 
 			// we can probably disable validation now that the jump rules has been chosen
 			newBoard = Game.makeMove(newBoard, move, false);
@@ -268,8 +268,14 @@ public class AI {
 		}
 
 		if (player == Constants.RED_PLAYER) {
+			if (blackMaterial == 0) {
+				return Integer.MAX_VALUE;
+			}
 			return score;
 		} else {
+			if (redMaterial == 0) {
+				return Integer.MIN_VALUE;
+			}
 			return -score;
 		}
 	}

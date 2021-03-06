@@ -1,19 +1,12 @@
 package game;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayBoard implements Board {
-
-	// java (mostly) uses word boundaries so unless on an embedded device just use an int instead
-	// we will track using ROWS, then COLUMNS
-	private int[][] board = new int[Constants.ROWS][Constants.COLUMNS];
-
-	private int turn = Constants.BLACK_PLAYER;
+public class PlayBoard extends Board {
 
 	private boolean gameOver = false;
-
 	private int winner;
-
 	private List<Move> moves;
 
 	public PlayBoard() {
@@ -21,45 +14,24 @@ public class PlayBoard implements Board {
 		moves = new ArrayList<Move>();
 		gameOver = false;
 		winner = 0;
-		turn = Constants.BLACK_PLAYER;
+		this.setTurn(Constants.BLACK_PLAYER);
 	}
 
 	public PlayBoard(int[][] board) {
 		this();
-		for (int r = 0; r < Constants.ROWS; r++) {
-			for (int c = 0; c < Constants.COLUMNS; c++) {
-				this.board[r][c] = board[r][c];
-			}
-		}
+		this.setBoardCopy(board);
 	}
 
 	public PlayBoard(Board board) {
 		this();
-		// use a deep copy here?
 		int[][] values = board.getBoard();
-		for (int r = 0; r < Constants.ROWS; r++) {
-			for (int c = 0; c < Constants.COLUMNS; c++) {
-				this.board[r][c] = values[r][c];
-			}
-		}
-	}
-
-	public void setBoard(int[][] board) {
-		this.board = board;
-	}
-
-	public int[][] getBoard() {
-		return board;
-	}
-
-	public void setValue(int r, int c, int value) {
-		board[r][c] = value;
+		this.setBoardCopy(values);
 	}
 
 	private void emptyBoard() {
 		for (int r = 0; r < Constants.ROWS; r++) {
 			for (int c = 0; c < Constants.COLUMNS; c++) {
-				board[r][c] = 0;
+				this.setValue(r, c, 0);
 			}
 		}
 	}
@@ -105,44 +77,20 @@ public class PlayBoard implements Board {
 						val = !colEven ? Constants.EMPTY : whichChecker;
 					}
 				}
-				board[r][c] = val;
+				this.setValue(r, c, val);
 			}
 		}
-	}
-
-	/**
-	 * Returns the piece at the given row and column.
-	 * 
-	 * If the piece doesn't exist returns -1;
-	 * 
-	 * @param row
-	 * @param col
-	 * @return
-	 */
-	public int getPiece(int row, int col) {
-		if (row < 0 || row >= Constants.ROWS || col < 0 || col >= Constants.COLUMNS) {
-			return -1;
-		}
-		return board[row][col];
 	}
 
 	public String printBoard() {
 		StringBuilder sb = new StringBuilder();
 		for (int r = 0; r < Constants.ROWS; r++) {
 			for (int c = 0; c < Constants.COLUMNS; c++) {
-				sb.append(board[r][c] + " ");
+				sb.append(this.getPiece(r, c) + "");
 			}
 			sb.append("\n");
 		}
 		return sb.toString();
-	}
-
-	public int getTurn() {
-		return turn;
-	}
-
-	public void setTurn(int turn) {
-		this.turn = turn;
 	}
 
 	public List<Move> getMoves() {
