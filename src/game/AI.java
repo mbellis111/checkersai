@@ -25,6 +25,13 @@ public class AI {
 			return node;
 		}
 
+		// check draw
+		if (board.getMovesSinceJump() >= Constants.DRAW_MOVES_WITHOUT_CAPTURE) {
+			Node node = new Node();
+			node.setValue(0);
+			return node;
+		}
+
 		Node selectedNode = new Node();
 		selectedNode.setMove(moves.get(0));
 		if (maxPlayer) {

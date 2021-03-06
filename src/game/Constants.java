@@ -7,7 +7,7 @@ public class Constants {
 	/**
 	 * Number of moves to look ahead
 	 */
-	public static final int PLIES = 15;
+	public static final int PLIES = 14;
 
 	public static final int HUMAN = 0;
 	public static final int COMPUTER = 1;

@@ -103,6 +103,7 @@ public class PlayBoard extends Board {
 
 	public void addMove(Move move) {
 		this.moves.add(move);
+
 	}
 
 	public int getWinner() {

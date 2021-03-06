@@ -6,18 +6,22 @@ public class Board {
 	// we will track using ROWS, then COLUMNS
 	private int[][] board;
 	private int turn;
+	private int movesSinceJump;
 
 	public Board() {
 		this.board = new int[Constants.ROWS][Constants.COLUMNS];
+		movesSinceJump = 0;
 	}
 
 	public Board(int[][] values) {
 		this.board = new int[Constants.ROWS][Constants.COLUMNS];
 		setBoardCopy(values);
+		movesSinceJump = 0;
 	}
 
 	public Board(Board board) {
 		this(board.getBoard());
+		this.setMovesSinceJump(board.getMovesSinceJump());
 	}
 
 	public int getPiece(int row, int col) {
@@ -46,6 +50,14 @@ public class Board {
 
 	public void setTurn(int turn) {
 		this.turn = turn;
+	}
+
+	public int getMovesSinceJump() {
+		return movesSinceJump;
+	}
+
+	public void setMovesSinceJump(int movesSinceJump) {
+		this.movesSinceJump = movesSinceJump;
 	}
 
 }

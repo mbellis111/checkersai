@@ -1,4 +1,5 @@
 package game;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -6,24 +7,16 @@ import java.util.List;
 public class Game {
 
 	public static boolean detectDraw(PlayBoard board) {
-		// if there haven't been enough moves, exit early
-		List<Move> moves = board.getMoves();
-		if (moves.size() < Constants.DRAW_MOVES_WITHOUT_CAPTURE && moves.size() < Constants.DRAW_REPEATED_MOVES) {
-			return false;
-		}
 
 		// if we have made too many moves with a jump or if the same state has been seen three times
-		int movesBeforeJump = 0;
-		for (Move move : moves) {
-			if (!move.getIsValidJump()) {
-				movesBeforeJump++;
-			} else {
-				movesBeforeJump = 0;
-			}
-			if (movesBeforeJump >= Constants.DRAW_MOVES_WITHOUT_CAPTURE) {
-				System.out.println("Draw due to no captures.");
-				return true;
-			}
+		if (board.getMovesSinceJump() >= Constants.DRAW_MOVES_WITHOUT_CAPTURE) {
+			System.out.println("Draw due to no captures.");
+			return true;
+		}
+
+		List<Move> moves = board.getMoves();
+		if (moves.size() < Constants.DRAW_REPEATED_MOVES) {
+			return false;
 		}
 
 		// check to see if the same move was made a certain number of times
@@ -113,6 +106,7 @@ public class Game {
 				board.setValue(jumpRow, jumpCol, piece);
 			}
 
+			board.setMovesSinceJump(0);
 		} else {
 
 			// move the original piece
@@ -131,6 +125,7 @@ public class Game {
 
 			// swap turns since no jump was made
 			board.setTurn(getOtherPlayer(player));
+			board.setMovesSinceJump(board.getMovesSinceJump() + 1);
 		}
 
 		// board.addMove(move);
