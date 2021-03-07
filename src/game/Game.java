@@ -1,41 +1,16 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Game {
 
-	public static boolean detectDraw(PlayBoard board) {
-
+	public static boolean detectDraw(Board board) {
 		// if we have made too many moves with a jump or if the same state has been seen three times
 		if (board.getMovesSinceJump() >= Constants.DRAW_MOVES_WITHOUT_CAPTURE) {
 			System.out.println("Draw due to no captures.");
 			return true;
 		}
-
-		List<Move> moves = board.getMoves();
-		if (moves.size() < Constants.DRAW_REPEATED_MOVES) {
-			return false;
-		}
-
-		// check to see if the same move was made a certain number of times
-		// the Move class implements hashCode
-		HashMap<Move, Integer> moveCount = new HashMap<Move, Integer>();
-		for (Move move : moves) {
-			if (moveCount.containsKey(move)) {
-				moveCount.put(move, moveCount.get(move) + 1);
-			} else {
-				moveCount.put(move, 1);
-			}
-		}
-		for (Integer dupes : moveCount.values()) {
-			if (dupes >= Constants.DRAW_REPEATED_MOVES) {
-				System.out.println("Draw due to repeated moves.");
-				return true;
-			}
-		}
-
 		return false;
 	}
 
@@ -128,8 +103,6 @@ public class Game {
 			board.setMovesSinceJump(board.getMovesSinceJump() + 1);
 		}
 
-		// board.addMove(move);
-		// board.setErrorMessage("");
 		return board;
 	}
 

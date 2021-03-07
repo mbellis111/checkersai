@@ -30,11 +30,6 @@ public class Constants {
 	 */
 	public static final int DRAW_MOVES_WITHOUT_CAPTURE = 50;
 
-	/**
-	 * Number of times the same move can be made before declaring a draw
-	 */
-	public static final int DRAW_REPEATED_MOVES = 20;
-
 	/*
 	 * Board evaluation constants
 	 */
