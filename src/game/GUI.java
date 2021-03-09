@@ -41,14 +41,14 @@ public class GUI {
 //		// @formatter:off
 //		int[][] data = new int[][] { 
 //			//0  1  2  3  4  5  6  7
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 0
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 1
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 2
-//			{ 0, 0, 3, 0, 0, 0, 0, 0 }, // 3
-//			{ 0, 0, 0, 0, 0, 2, 0, 0 }, // 4
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 5
-//			{ 0, 0, 0, 2, 0, 0, 0, 0 }, // 6
-//			{ 0, 0, 0, 0, 0, 0, 0, 0 }  // 7
+//			{ 0, 0, 0, 0, 0, 2, 0, 0 }, // 0
+//			{ 0, 0, 0, 0, 0, 0, 2, 0 }, // 1
+//			{ 0, 0, 0, 3, 0, 0, 0, 0 }, // 2
+//			{ 0, 0, 0, 0, 0, 0, 0, 0 }, // 3
+//			{ 0, 0, 0, 0, 0, 0, 0, 2 }, // 4
+//			{ 3, 0, 2, 0, 5, 0, 0, 0 }, // 5
+//			{ 0, 0, 0, 0, 0, 0, 0, 1 }, // 6
+//			{ 1, 0, 0, 0, 1, 0, 1, 0 }  // 7
 //		};
 //		// @formatter:on
 //		board.setBoardCopy(data);
@@ -263,11 +263,13 @@ class BoardUI extends JPanel {
 	}
 
 	private Board makeComputerMove(Board board) {
+		AI.resetNumConsideration();
 		Instant start = Instant.now();
 		Node node = AI.minimax(board, Constants.PLIES, board.getTurn(), true, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		Instant end = Instant.now();
 		Duration timeElapsed = Duration.between(start, end);
 		System.out.println("Computer thought for " + timeElapsed);
+		System.out.println("Computer considered " + AI.getNumConsiderations() + " moves");
 
 		Move move = node.getMove();
 		Board temp = Game.makeMove(board, move);

@@ -4,7 +4,19 @@ import java.util.List;
 
 public class AI {
 
+	public static void resetNumConsideration() {
+		numConsiderations = 0l;
+	}
+
+	public static Long getNumConsiderations() {
+		return numConsiderations;
+	}
+
+	private static Long numConsiderations = 0l;
+
 	public static Node minimax(Board board, int depth, int player, boolean maxPlayer, int alpha, int beta) {
+
+		numConsiderations++;
 
 		// check game over
 		List<Move> moves = Game.getAvailableMoves(board, player);

@@ -27,7 +27,6 @@ public class Game {
 			}
 		}
 
-		// TODO for easier debugging, change later to just access from move
 		int player = move.getPlayer();
 		int startRow = move.getStartRow();
 		int startCol = move.getStartCol();
@@ -261,7 +260,6 @@ public class Game {
 
 	private static boolean isValidJump(Board board, Move move) {
 
-		// TODO for easier debugging, change later to just access from move
 		int player = move.getPlayer();
 		int startRow = move.getStartRow();
 		int startCol = move.getStartCol();
